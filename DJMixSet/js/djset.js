@@ -307,9 +307,9 @@ this Set contains a lot of Play- & Track-Functions
     equalizer.appendTo(playerDisplay1);
     
     function setEq(player) {
-      var scW = window.screen.availWidth;
+      var scWi = element.width();
       
-      if (scW > 1600) {
+      if (scWi > 1600) {
         $("#"+player).equalizer({
     	color: "#7affff",
     	color1: '#00ffff',
@@ -969,7 +969,7 @@ this Set contains a lot of Play- & Track-Functions
     
     crfadeAttr1.appendTo(djTools1);
     
-    var crossFadeMode = $("<select style='width:150px; height:40px; font-weight:bold; font-size: 16px; color:white; background: #212121; border: 4px outset grey; border-radius:6px;'><option value='Fade'>Fade</option><option value='FadeOut'>FadeOut</option><option value='FadeIn'>FadeIn</option><option value='FadeInFast'>FadeInFast</option><option value='FadeTO'>FadeTimeOut</option><option value='FadeInOut'>FadeInOut</option></select>");
+    var crossFadeMode = $("<select style='width:150px; height:40px; font-weight:bold; font-size: 16px; color:white; background: #212121; border: 4px outset grey; border-radius:6px;'><option value='Fade'>Fade</option><option value='FadeOut'>FadeOut</option><option value='FadeIn'>FadeIn</option><option value='FadeInFast'>FadeInFast</option><option value='FadeTO'>FadeTimeOut</option><option value='FadeInOut'>FadeInOut</option><option value='FadeOutTO'>FadeOutTO</option><option value='FadeInTO'>FadeInTO</option><option value='FadeInOutFast'>FadeInOutFast</option></select>");
     crossFadeMode.appendTo(crfadeAttr1);
     
     var crossFadeTime = $("<input type='number' style='width:80px; height:30px; font-weight:bold; font-size: 16px; color:white; background: #212121; border: 4px outset grey; margin-left:6px; border-radius:6px;'>");
@@ -3448,6 +3448,26 @@ this Set contains a lot of Play- & Track-Functions
       }
     }
     
+    function crossfade125() {
+      var fadeVal2 = parseFloat(fader2.val());
+      var crossTime = crossFadeTime.val();
+      fader2.val(fadeVal2 + 0.01).trigger("change");
+      
+      if (fadeVal2 < 1) {
+        setTimeout(crossfade123, crossTime*5/2);
+      }
+    }
+    
+    function crossfade126() {
+      var fadeVal1 = fader1.val();
+      var crossTime = crossFadeTime.val();
+      fader1.val(fadeVal1 - 0.01).trigger("change");
+      
+      if (fadeVal1 > 0) {
+        setTimeout(crossfade124, crossTime*5/2);
+      }
+    }
+    
     function crossfade231() {
       var fadeVal1 = parseFloat(fader1.val());
       var crossTime = crossFadeTime.val();
@@ -3485,6 +3505,26 @@ this Set contains a lot of Play- & Track-Functions
       
       if (fadeVal2 > 0) {
         setTimeout(crossfade234, crossTime*5);
+      }
+    }
+    
+    function crossfade235() {
+      var fadeVal1 = parseFloat(fader1.val());
+      var crossTime = crossFadeTime.val();
+      fader1.val(fadeVal1 + 0.01).trigger("change");
+      
+      if (fadeVal1 < 1) {
+        setTimeout(crossfade233, crossTime*5/2);
+      }
+    }
+    
+    function crossfade236() {
+      var fadeVal2 = fader2.val();
+      var crossTime = crossFadeTime.val();
+      fader2.val(fadeVal2 - 0.01).trigger("change");
+      
+      if (fadeVal2 > 0) {
+        setTimeout(crossfade234, crossTime*5/2);
       }
     }
     
@@ -3542,6 +3582,16 @@ this Set contains a lot of Play- & Track-Functions
         crossfade123();
         setTimeout(crossfade124, crossTime*500);
         player2.trigger("play");
+      } else if (crMode === "FadeOutTO") {
+        fadeOut1("player2");
+        setTimeout(crossfade124, crossTime*500);
+      } else if (crMode === "FadeInTO") {
+        crossfade123();
+        fadeIn1("player2");
+      } else if (crMode === "FadeInOutFast") {
+        crossfade125();
+        setTimeout(crossfade126, crossTime*750);
+        player2.trigger("play");
       }
     }
     
@@ -3584,6 +3634,16 @@ this Set contains a lot of Play- & Track-Functions
       } else if (crMode === "FadeInOut") {
         crossfade233();
         setTimeout(crossfade234, crossTime*500);
+        player3.trigger("play");
+      } else if (crMode === "FadeOutTO") {
+        fadeOut2("player3");
+        setTimeout(crossfade234, crossTime*500);
+      } else if (crMode === "FadeInTO") {
+        crossfade233();
+        fadeIn2("player3");
+      } else if (crMode === "FadeInOutFast") {
+        crossfade235();
+        setTimeout(crossfade236, crossTime*750);
         player3.trigger("play");
       }
     }
@@ -3628,6 +3688,16 @@ this Set contains a lot of Play- & Track-Functions
         crossfade123();
         setTimeout(crossfade124, crossTime*500);
         player4.trigger("play");
+      } else if (crMode === "FadeOutTO") {
+        fadeOut1("player4");
+        setTimeout(crossfade124, crossTime*500);
+      } else if (crMode === "FadeInTO") {
+        crossfade123();
+        fadeIn1("player4");
+      } else if (crMode === "FadeInOutFast") {
+        crossfade125();
+        setTimeout(crossfade126, crossTime*750);
+        player4.trigger("play");
       }
     }
     
@@ -3670,6 +3740,16 @@ this Set contains a lot of Play- & Track-Functions
       } else if (crMode === "FadeInOut") {
         crossfade233();
         setTimeout(crossfade234, crossTime*500);
+        player1.trigger("play");
+      } else if (crMode === "FadeOutTO") {
+        fadeOut2("player1");
+        setTimeout(crossfade234, crossTime*500);
+      } else if (crMode === "FadeInTO") {
+        crossfade233();
+        fadeIn2("player1");
+      } else if (crMode === "FadeInOutFast") {
+        crossfade235();
+        setTimeout(crossfade236, crossTime*750);
         player1.trigger("play");
       }
     }
@@ -4885,7 +4965,7 @@ this Set contains a lot of Play- & Track-Functions
       $("#"+djplayer).attr("src", settings.path+random[randomNumber]+settings.extension);
       $("#tracklist li:contains("+random[randomNumber]+")").addClass("selTrack");
       
-      $(".selTrack").each(function() {
+      $(".selTrack:eq(0)").each(function() {
         currentTrack = $(this).index();
       });
       
@@ -5703,7 +5783,7 @@ this Set contains a lot of Play- & Track-Functions
       return false;
     });
     
-    var squisher, reverser;
+    var squisher1, reverser1, squisher2, reverser2, squisher3, reverser3, squisher4, reverser4;
     
     function playSquish(djplayer) {
       var timepos = $("#"+djplayer).prop("currentTime");
@@ -5717,28 +5797,28 @@ this Set contains a lot of Play- & Track-Functions
     
     function setSquish1() {
       var sqFreq = squishFreq.val();
-      squisher = setInterval(function() {
+      squisher1 = setInterval(function() {
         playSquish("player1");
       }, sqFreq*1000);
     }
     
     function setSquish2() {
       var sqFreq = squishFreq.val();
-      squisher = setInterval(function() {
+      squisher2 = setInterval(function() {
         playSquish("player2");
       }, sqFreq*1000);
     }
     
     function setSquish3() {
       var sqFreq = squishFreq.val();
-      squisher = setInterval(function() {
+      squisher3 = setInterval(function() {
         playSquish("player3");
       }, sqFreq*1000);
     }
     
     function setSquish4() {
       var sqFreq = squishFreq.val();
-      squisher = setInterval(function() {
+      squisher4 = setInterval(function() {
         playSquish("player4");
       }, sqFreq*1000);
     }
@@ -5747,7 +5827,7 @@ this Set contains a lot of Play- & Track-Functions
       var sqStatus1 = $(this).attr("style");
       
       if (!sqStatus1) {
-        clearTimeout(reverser);
+        clearTimeout(reverser1);
         playRev1.removeAttr("style");
         setSquish1();
         $(this).css({
@@ -5756,7 +5836,7 @@ this Set contains a lot of Play- & Track-Functions
           "border-color": "red"
         });
       } else {
-        clearInterval(squisher);
+        clearInterval(squisher1);
         $(this).removeAttr("style");
       }
     });
@@ -5765,7 +5845,7 @@ this Set contains a lot of Play- & Track-Functions
       var sqStatus2 = $(this).attr("style");
       
       if (!sqStatus2) {
-        clearTimeout(reverser);
+        clearTimeout(reverser2);
         playRev2.removeAttr("style");
         setSquish2();
         $(this).css({
@@ -5774,7 +5854,7 @@ this Set contains a lot of Play- & Track-Functions
           "border-color": "red"
         });
       } else {
-        clearInterval(squisher);
+        clearInterval(squisher2);
         $(this).removeAttr("style");
       }
     });
@@ -5783,7 +5863,7 @@ this Set contains a lot of Play- & Track-Functions
       var sqStatus3 = $(this).attr("style");
       
       if (!sqStatus3) {
-        clearTimeout(reverser);
+        clearTimeout(reverser3);
         playRev3.removeAttr("style");
         setSquish3();
         $(this).css({
@@ -5792,7 +5872,7 @@ this Set contains a lot of Play- & Track-Functions
           "border-color": "red"
         });
       } else {
-        clearInterval(squisher);
+        clearInterval(squisher3);
         $(this).removeAttr("style");
       }
     });
@@ -5801,7 +5881,7 @@ this Set contains a lot of Play- & Track-Functions
       var sqStatus4 = $(this).attr("style");
       
       if (!sqStatus4) {
-        clearTimeout(reverser);
+        clearTimeout(reverser4);
         playRev4.removeAttr("style");
         setSquish4();
         $(this).css({
@@ -5810,7 +5890,7 @@ this Set contains a lot of Play- & Track-Functions
           "border-color": "red"
         });
       } else {
-        clearInterval(squisher);
+        clearInterval(squisher4);
         $(this).removeAttr("style");
       }
     });
@@ -5958,10 +6038,10 @@ this Set contains a lot of Play- & Track-Functions
       
       $("#squishList1 li").on("click", function() {
         var sqVals = parseFloat($(this).text());
-        clearTimeout(reverser);
-        clearTimeout(squisher);
+        clearTimeout(reverser1);
+        clearTimeout(squisher1);
         playRev1.removeAttr("style");
-        squisher = setInterval(function() {
+        squisher1 = setInterval(function() {
         player1.prop("currentTime", player1.prop("currentTime") - sqVals);
         }, sqVals*1000);
         squish1.css({
@@ -6015,10 +6095,10 @@ this Set contains a lot of Play- & Track-Functions
       
       $("#squishList2 li").on("click", function() {
         var sqVals2 = parseFloat($(this).text());
-        clearTimeout(reverser);
-        clearTimeout(squisher);
+        clearTimeout(reverser2);
+        clearTimeout(squisher2);
         playRev2.removeAttr("style");
-        squisher = setInterval(function() {
+        squisher2 = setInterval(function() {
         player2.prop("currentTime", player2.prop("currentTime") - sqVals2);
         }, sqVals2*1000);
         squish2.css({
@@ -6072,10 +6152,10 @@ this Set contains a lot of Play- & Track-Functions
       
       $("#squishList3 li").on("click", function() {
         var sqVals3 = parseFloat($(this).text());
-        clearTimeout(reverser);
-        clearTimeout(squisher);
+        clearTimeout(reverser3);
+        clearTimeout(squisher3);
         playRev3.removeAttr("style");
-        squisher = setInterval(function() {
+        squisher3 = setInterval(function() {
         player3.prop("currentTime", player3.prop("currentTime") - sqVals3);
         }, sqVals3*1000);
         squish3.css({
@@ -6129,10 +6209,10 @@ this Set contains a lot of Play- & Track-Functions
       
       $("#squishList4 li").on("click", function() {
         var sqVals4 = parseFloat($(this).text());
-        clearTimeout(reverser);
-        clearTimeout(squisher);
+        clearTimeout(reverser4);
+        clearTimeout(squisher4);
         playRev4.removeAttr("style");
-        squisher = setInterval(function() {
+        squisher4 = setInterval(function() {
         player4.prop("currentTime", player4.prop("currentTime") - sqVals4);
         }, sqVals4*1000);
         squish4.css({
@@ -6155,7 +6235,7 @@ this Set contains a lot of Play- & Track-Functions
     });
     
     
-  	function playReverse(djplayer, pitcher) {
+  	function playReverse(djplayer) {
       var timepos = $("#"+djplayer).prop("currentTime");
       var playRate = $("#"+djplayer).prop("playbackRate");
       clearTimeout(autoPlayer1);
@@ -6167,28 +6247,28 @@ this Set contains a lot of Play- & Track-Functions
 
   	function setReverse1() {
       var playRate1 = player1.prop("playbackRate");
-      reverser = setInterval(function() {
+      reverser1 = setInterval(function() {
       playReverse("player1");
       }, 90 / playRate1);
   	}
     
   	function setReverse2() {
       var playRate2 = player2.prop("playbackRate");
-      reverser = setInterval(function() {
+      reverser2 = setInterval(function() {
       playReverse("player2");
       }, 90 / playRate2);
     }
     
     function setReverse3() {
       var playRate3 = player3.prop("playbackRate");
-      reverser = setInterval(function() {
+      reverser3 = setInterval(function() {
       playReverse("player3");
       }, 90 / playRate3);
     }
     
     function setReverse4() {
       var playRate4 = player4.prop("playbackRate");
-      reverser = setInterval(function() {
+      reverser4 = setInterval(function() {
       playReverse("player4");
       }, 90 / playRate4);
     }
@@ -6197,7 +6277,7 @@ this Set contains a lot of Play- & Track-Functions
       var revStatus1 = $(this).attr("style");
       
       if (!revStatus1) {
-        clearTimeout(squisher);
+        clearTimeout(squisher1);
         squish1.removeAttr("style");
         setReverse1();
         $(this).css({
@@ -6206,7 +6286,7 @@ this Set contains a lot of Play- & Track-Functions
           "border-color": "yellow"
         });
       } else {
-        clearInterval(reverser);
+        clearInterval(reverser1);
         $(this).removeAttr("style");
       }
     });
@@ -6215,7 +6295,7 @@ this Set contains a lot of Play- & Track-Functions
       var revStatus2 = $(this).attr("style");
       
       if (!revStatus2) {
-        clearTimeout(squisher);
+        clearTimeout(squisher2);
         squish2.removeAttr("style");
         setReverse2();
         $(this).css({
@@ -6224,7 +6304,7 @@ this Set contains a lot of Play- & Track-Functions
           "border-color": "yellow"
         });
       } else {
-        clearInterval(reverser);
+        clearInterval(reverser2);
         $(this).removeAttr("style");
       }
     });
@@ -6233,7 +6313,7 @@ this Set contains a lot of Play- & Track-Functions
       var revStatus3 = $(this).attr("style");
       
       if (!revStatus3) {
-        clearTimeout(squisher);
+        clearTimeout(squisher3);
         squish3.removeAttr("style");
         setReverse3();
         $(this).css({
@@ -6242,7 +6322,7 @@ this Set contains a lot of Play- & Track-Functions
           "border-color": "yellow"
         });
       } else {
-        clearInterval(reverser);
+        clearInterval(reverser3);
         $(this).removeAttr("style");
       }
     });
@@ -6251,7 +6331,7 @@ this Set contains a lot of Play- & Track-Functions
       var revStatus4 = $(this).attr("style");
       
       if (!revStatus4) {
-        clearTimeout(squisher);
+        clearTimeout(squisher4);
         squish4.removeAttr("style");
         setReverse4();
         $(this).css({
@@ -6260,7 +6340,7 @@ this Set contains a lot of Play- & Track-Functions
           "border-color": "yellow"
         });
       } else {
-        clearInterval(reverser);
+        clearInterval(reverser4);
         $(this).removeAttr("style");
       }
     });
@@ -8712,6 +8792,617 @@ this Set contains a lot of Play- & Track-Functions
     }
     
     setPlaySettings();
+    
+    function setAreaSize() {
+      if (element.width() < 1600) {
+        titleBar.css({
+          "height": "20px",
+          "font-size": "16px"
+        });
+        
+        playerArea1.css("height", "150px");
+        playerArea2.css("height", "150px");
+        playerArea3.css("height", "150px");
+        playerArea4.css("height", "150px");
+        djTools1.css("height", "150px");
+        djTools2.css("height", "150px");
+        playerDisplay1.css("height", "60px");
+        playerDisplay2.css("height", "60px");
+        playerDisplay3.css("height", "60px");
+        playerDisplay4.css("height", "60px");
+        
+        trackNumber1.css({
+          "height": "40px",
+          "font-size": "16px",
+          "margin-top": "6px",
+          "padding-top": "12px"
+        });
+        
+        trackNumber2.css({
+          "height": "40px",
+          "font-size": "16px",
+          "margin-top": "6px",
+          "padding-top": "12px"
+        });
+        
+        trackNumber3.css({
+          "height": "40px",
+          "font-size": "16px",
+          "margin-top": "6px",
+          "padding-top": "12px"
+        });
+        
+        trackNumber4.css({
+          "height": "40px",
+          "font-size": "16px",
+          "margin-top": "6px",
+          "padding-top": "12px"
+        });
+        
+        artist1.css({
+          "height": "40px",
+          "font-size": "16px",
+          "margin-top": "6px",
+          "padding-top": "12px"
+        });
+        
+        artist2.css({
+          "height": "40px",
+          "font-size": "16px",
+          "margin-top": "6px",
+          "padding-top": "12px"
+        });
+        
+        artist3.css({
+          "height": "40px",
+          "font-size": "16px",
+          "margin-top": "6px",
+          "padding-top": "12px"
+        });
+        
+        artist4.css({
+          "height": "40px",
+          "font-size": "16px",
+          "margin-top": "6px",
+          "padding-top": "12px"
+        });
+        
+        equalizer.css({
+          "height": "50px",
+          "margin-top": "6px",
+          "padding-top": "2px",
+    	});
+        
+        equalizer2.css({
+          "height": "50px",
+          "margin-top": "6px",
+          "padding-top": "2px",
+    	});
+        
+        equalizer3.css({
+          "height": "50px",
+          "margin-top": "6px",
+          "padding-top": "2px",
+    	});
+        
+        equalizer4.css({
+          "height": "50px",
+          "margin-top": "6px",
+          "padding-top": "2px",
+    	});
+        
+        tracktime1.css({
+          "height": "40px",
+          "font-size": "16px",
+          "margin-top": "6px",
+          "padding-top": "12px"
+        });
+        
+        tracktime2.css({
+          "height": "40px",
+          "font-size": "16px",
+          "margin-top": "6px",
+          "padding-top": "12px"
+        });
+        
+        tracktime3.css({
+          "height": "40px",
+          "font-size": "16px",
+          "margin-top": "6px",
+          "padding-top": "12px"
+        });
+        
+        tracktime4.css({
+          "height": "40px",
+          "font-size": "16px",
+          "margin-top": "6px",
+          "padding-top": "12px"
+        });
+        
+        timebox1.css({
+         "height": "20px",
+         "padding-top": "11px",
+    	});
+        
+        timebox2.css({
+         "height": "20px",
+         "padding-top": "11px",
+    	});
+        
+        timebox3.css({
+         "height": "20px",
+         "padding-top": "11px",
+    	});
+        
+        timebox4.css({
+         "height": "20px",
+         "padding-top": "11px",
+    	});
+        
+        playerTools1.css({
+      	 "height": "40px",
+      	 "padding-top": "9px",
+    	});
+        
+        pitchArea1.css({
+         "width": "80px",
+      	 "height": "26px",
+      	 "margin-left": "4px",
+    	});
+        
+        pitchRange1.css({
+         "width": "70px",
+      	 "height": "15px",
+      	 "margin-left": "2px",
+    	});
+        
+        playerTools2.css({
+      	 "height": "40px",
+      	 "padding-top": "9px",
+    	});
+        
+        pitchArea2.css({
+         "width": "80px",
+      	 "height": "26px",
+      	 "margin-left": "4px",
+    	});
+        
+        pitchRange2.css({
+         "width": "70px",
+      	 "height": "15px",
+      	 "margin-left": "2px",
+    	});
+        
+        playerTools3.css({
+      	 "height": "40px",
+      	 "padding-top": "9px",
+    	});
+        
+        pitchArea3.css({
+         "width": "80px",
+      	 "height": "26px",
+      	 "margin-left": "4px",
+    	});
+        
+         pitchRange3.css({
+          "width": "70px",
+      	  "height": "15px",
+      	  "margin-left": "2px",
+    	});
+        
+         playerTools4.css({
+      	  "height": "40px",
+      	  "padding-top": "9px",
+    	});
+        
+         pitchArea4.css({
+          "width": "80px",
+      	  "height": "26px",
+      	  "margin-left": "4px",
+    	});
+        
+         pitchRange4.css({
+          "width": "70px",
+      	  "height": "15px",
+      	  "margin-left": "2px",
+    	});
+        
+         playListRandomBtn.text("Rand");
+        
+         crossfadeImg.css({
+      	  "width": "130px",
+      	  "height": "60px"
+    	});
+        
+         fader1.css({
+      	  "width": "160px",
+      	  "height": "15px"
+    	});
+        
+         fader2.css({
+      	  "width": "160px",
+      	  "height": "15px"
+    	});
+        
+        crossFadeMode.css({
+      	 "width": "90px",
+      	 "height": "30px",
+         "font-size": "12px"
+    	});
+        
+         crossFadeTime.css({
+      	  "width": "70px",
+      	  "height": "30px",
+          "font-size": "12px"
+    	});
+        
+         partTrack.css({
+      	  "width": "60px",
+      	  "height": "25px",
+          "font-size": "12px"
+    	});
+        
+        trackLibTxt.css({
+      	  "height": "20px",
+      	  "font-size": "12px",
+      	  "margin-top": "2px",
+    	});
+        
+        bgLibTxt.css({
+      	  "height": "20px",
+      	  "font-size": "12px",
+      	  "margin-top": "2px",
+    	});
+        
+        trackLib.css({
+          "height": "170px",
+    	});
+        
+        trackLibList.css({
+          "font-size": "14px",
+    	});
+        
+        fxLib.css({
+          "height": "170px",
+    	});
+        
+        fxLibList.css({
+          "font-size": "14px",
+    	});
+        
+        mixerBox.css({
+      	  "height": "170px",
+    	});
+        
+        mixTxt1.css({
+      	  "height": "40px",
+      	  "font-size": "16px",
+      	  "padding-top": "10px"
+    	});
+        
+        volBox1.css({
+      	  "height": "40px",
+      	  "padding-top": "10px"
+    	});
+        
+        volMixer1.css({
+      	  "height": "20px",
+      	  "border": "4px outset silver"
+    	});
+        
+        volToggleBox1.css({
+      	  "height": "40px",
+      	  "padding-top": "10px",
+    	});
+        
+        mixTxt2.css({
+      	  "height": "40px",
+      	  "font-size": "16px",
+      	  "padding-top": "10px"
+    	});
+        
+        volBox2.css({
+      	  "height": "40px",
+      	  "padding-top": "10px"
+    	});
+        
+        volMixer2.css({
+      	  "height": "20px",
+      	  "border": "4px outset silver"
+    	});
+        
+        volToggleBox2.css({
+      	  "height": "40px",
+      	  "padding-top": "10px",
+    	});
+        
+        mixTxt3.css({
+      	  "height": "40px",
+      	  "font-size": "16px",
+      	  "padding-top": "10px"
+    	});
+        
+        volBox3.css({
+      	  "height": "40px",
+      	  "padding-top": "10px"
+    	});
+        
+        volMixer3.css({
+      	  "height": "20px",
+      	  "border": "4px outset silver"
+    	});
+        
+        volToggleBox3.css({
+      	  "height": "40px",
+      	  "padding-top": "10px",
+    	});
+        
+        mixTxt4.css({
+      	  "height": "40px",
+      	  "font-size": "16px",
+      	  "padding-top": "10px"
+    	});
+        
+        volBox4.css({
+      	  "height": "40px",
+      	  "padding-top": "10px"
+    	});
+        
+        volMixer4.css({
+      	  "height": "20px",
+      	  "border": "4px outset silver"
+    	});
+        
+        volToggleBox4.css({
+      	  "height": "40px",
+      	  "padding-top": "10px",
+    	});
+        
+        mixTxt5.css({
+      	  "height": "40px",
+      	  "font-size": "16px",
+      	  "padding-top": "10px"
+    	});
+        
+        volBox5.css({
+      	  "height": "40px",
+      	  "padding-top": "10px"
+    	});
+        
+        volFxMixer.css({
+      	  "height": "20px",
+      	  "border": "4px outset silver"
+    	});
+        
+        volToggleBox5.css({
+      	  "height": "40px",
+      	  "padding-top": "10px",
+    	});
+        
+        mixTxt6.css({
+      	  "height": "40px",
+      	  "font-size": "16px",
+      	  "padding-top": "10px"
+    	});
+        
+        volBox6.css({
+      	  "height": "40px",
+      	  "padding-top": "10px"
+    	});
+        
+        pitchFxMixer.css({
+      	  "height": "20px",
+      	  "border": "4px outset silver"
+    	});
+        
+        toolbarArea.css({
+      	  "height": "auto",
+    	});
+        
+        trackToolbar.css({
+      	  "height": "auto",
+          "padding": "4px"
+    	});
+        
+        fxToolbar.css({
+      	  "height": "auto",
+          "padding": "4px"
+    	});
+        
+        trackToolbar2.css({
+      	  "height": "auto",
+          "padding": "4px"
+    	});
+        
+        playerNumber.css({
+          "width": "80px",
+      	  "height": "35px",
+      	  "font-size": "14px",
+          "border-width": "2px",
+      	  "margin-left": "6px"
+    	});
+        
+        remainTracks.css({
+      	  "height": "35px",
+          "width": "45px",
+      	  "font-size": "16px",
+      	  "margin-left": "6px",
+      	  "border-radius": "6px"
+    	});
+        
+        trackLoadBtn.css({
+      	  "width": "130px",
+      	  "height": "35px",
+      	  "font-size": "16px",
+      	  "margin-left": "6px",
+      	  "border": "2px outset silver"
+    	});
+        
+        trackName.css({
+      	  "width": "120px",
+      	  "height": "35px",
+      	  "font-size": "16px",
+      	  "margin-left": "6px",
+      	  "border": "2px outset silver"
+    	});
+        
+        addTrackBtn.css({
+      	  "width": "35px",
+          "height": "35px",
+          "font-size": "16px",
+          "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        addTrackMultiBtn.css({
+      	  "width": "35px",
+          "height": "35px",
+          "font-size": "16px",
+          "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        trackCountUpBtn.css({
+      	  "width": "35px",
+          "height": "35px",
+          "font-size": "16px",
+          "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        trackCountDownBtn.css({
+      	  "width": "35px",
+          "height": "35px",
+          "font-size": "16px",
+          "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        trackUpBtn.css({
+      	  "width": "35px",
+          "height": "35px",
+          "font-size": "16px",
+          "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        trackDownBtn.css({
+      	  "width": "35px",
+          "height": "35px",
+          "font-size": "16px",
+          "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        squishFreq.css({
+      	  "width": "80px",
+          "height": "35px",
+          "font-size": "16px",
+          "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        trackListLoadBtn.css({
+      	  "width": "160px",
+      	  "height": "35px",
+      	  "font-size": "16px",
+      	  "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        addTrackListBtn.css({
+      	  "width": "35px",
+      	  "height": "35px",
+      	  "font-size": "16px",
+      	  "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        trackDelBtn.css({
+      	  "width": "35px",
+          "height": "35px",
+          "font-size": "16px",
+          "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        tracklistDelBtn.css({
+      	  "width": "35px",
+          "height": "35px",
+          "font-size": "16px",
+          "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        trackSaveTxt.css({
+      	  "width": "290px",
+      	  "height": "35px",
+      	  "font-size": "16px",
+      	  "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        trackSaveBtn.css({
+      	  "width": "160px",
+      	  "height": "35px",
+      	  "font-size": "16px",
+      	  "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        fxLoadBtn.css({
+      	  "width": "160px",
+          "height": "35px",
+          "font-size": "16px",
+          "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        fxFileName.css({
+      	  "width": "120px",
+      	  "height": "35px",
+      	  "font-size": "16px",
+      	  "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        fxFileLabel.css({
+      	  "width": "120px",
+      	  "height": "35px",
+      	  "font-size": "16px",
+      	  "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        addFxBtn.css({
+      	  "width": "35px",
+          "height": "35px",
+          "font-size": "16px",
+          "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        playFxBtn.css({
+      	  "width": "35px",
+          "height": "35px",
+          "font-size": "16px",
+          "margin-left": "6px",
+      	  "border": "4px outset silver"
+    	});
+        
+        mixToggle.css({
+          "width": "150px",
+          "height": "35px",
+          "font-size": "16px"
+        });
+        
+        bottomMain.css({
+          "height": "50px"
+        });
+      }
+    }
+    
+    setAreaSize();
     
     function saveTracklist() {
 	  localStorage.setItem("djtracks", trackLibList.html());
