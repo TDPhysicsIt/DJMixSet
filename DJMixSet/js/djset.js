@@ -26,6 +26,8 @@ this Set contains a lot of Play- & Track-Functions
       "pitchlimit": 2.5,
       "skiptime": 10,
       "pitchTime": 120,
+      "crossfadeMode": "manuel",
+      "trackChange": true,
       "tracklistBackground": "#303030",
       "fxboxBackground": "#303030",
       "fxSounds": [
@@ -3898,12 +3900,12 @@ this Set contains a lot of Play- & Track-Functions
         "background": "linear-gradient(to right, navy, skyblue, navy)",
         "border-style": "inset",
         "border-color": "skyblue"
-      });
+      }).html("||");
     });
     
     player1.on("pause", function() {
       clearTimeout(autoPlayer1);
-      playBtn1.removeAttr("style");
+      playBtn1.removeAttr("style").html("&#9654;");
     });
     
     player2.on("playing", function() {
@@ -3929,12 +3931,12 @@ this Set contains a lot of Play- & Track-Functions
         "background": "linear-gradient(to right, navy, skyblue, navy)",
         "border-style": "inset",
         "border-color": "skyblue"
-      });
+      }).html("||");
     });
     
     player2.on("pause", function() {
       clearTimeout(autoPlayer2);
-      playBtn2.removeAttr("style");
+      playBtn2.removeAttr("style").html("&#9654;");
     });
     
     player3.on("playing", function() {
@@ -3960,12 +3962,12 @@ this Set contains a lot of Play- & Track-Functions
         "background": "linear-gradient(to right, navy, skyblue, navy)",
         "border-style": "inset",
         "border-color": "skyblue"
-      });
+      }).html("||");
     });
     
     player3.on("pause", function() {
       clearTimeout(autoPlayer3);
-      playBtn3.removeAttr("style");
+      playBtn3.removeAttr("style").html("&#9654;");
     });
     
     player4.on("playing", function() {
@@ -3991,12 +3993,12 @@ this Set contains a lot of Play- & Track-Functions
         "background": "linear-gradient(to right, navy, skyblue, navy)",
         "border-style": "inset",
         "border-color": "skyblue"
-      });
+      }).html("||");
     });
     
     player4.on("pause", function() {
       clearTimeout(autoPlayer4);
-      playBtn4.removeAttr("style");
+      playBtn4.removeAttr("style").html("&#9654;");
     });
     
     crossFadeMode.on("change", function() {
@@ -4179,7 +4181,7 @@ this Set contains a lot of Play- & Track-Functions
       },10);
     }
     
-    pitchbend1.on("mousedown", function(evt) {
+    pitchbend1.on("mousedown touchstart", function(evt) {
       if (evt.which === 1) {
         stopBendRew1();
         startBend();
@@ -4191,7 +4193,7 @@ this Set contains a lot of Play- & Track-Functions
       }
     });
         
-    pitchbend1.on("mouseup", function(evt) {
+    pitchbend1.on("mouseup touchend", function(evt) {
       if (evt.which === 1) {
         stopBend1();
         startBendRew();
@@ -4227,7 +4229,7 @@ this Set contains a lot of Play- & Track-Functions
       },10);
     }
     
-    pitchbend2.on("mousedown", function(evt) {
+    pitchbend2.on("mousedown touchstart", function(evt) {
       if (evt.which === 1) {
         stopBendRew1();
         startBend2();
@@ -4239,7 +4241,7 @@ this Set contains a lot of Play- & Track-Functions
       }
     });
         
-    pitchbend2.on("mouseup", function(evt) {
+    pitchbend2.on("mouseup touchend", function(evt) {
       if (evt.which === 1) {
         stopBend1();
         startBendRew2();
@@ -4275,7 +4277,7 @@ this Set contains a lot of Play- & Track-Functions
       },10);
     }
     
-    pitchbend3.on("mousedown", function(evt) {
+    pitchbend3.on("mousedown touchstart", function(evt) {
       if (evt.which === 1) {
         stopBendRew1();
         startBend3();
@@ -4287,7 +4289,7 @@ this Set contains a lot of Play- & Track-Functions
       }
     });
         
-    pitchbend3.on("mouseup", function(evt) {
+    pitchbend3.on("mouseup touchend", function(evt) {
       if (evt.which === 1) {
         stopBend1();
         startBendRew3();
@@ -4323,7 +4325,7 @@ this Set contains a lot of Play- & Track-Functions
       },10);
     }
     
-    pitchbend4.on("mousedown", function(evt) {
+    pitchbend4.on("mousedown touchstart", function(evt) {
       if (evt.which === 1) {
         stopBendRew1();
         startBend4();
@@ -4335,7 +4337,7 @@ this Set contains a lot of Play- & Track-Functions
       }
     });
         
-    pitchbend4.on("mouseup", function(evt) {
+    pitchbend4.on("mouseup touchend", function(evt) {
       if (evt.which === 1) {
         stopBend1();
         startBendRew4();
@@ -8297,6 +8299,292 @@ this Set contains a lot of Play- & Track-Functions
       });
     });
     
+    var trackInfoMod = $("<div/>");
+    trackInfoMod.css({
+      "width": "600px",
+      "background": "rgba(30, 30, 30, 0.8)",
+      "border": "4px outset rgba(255, 255, 255, 0.8)",
+      "display": "none",
+      "position": "absolute",
+      "left": "20px",
+      "top": "20px",
+      "z-index": 1000
+    });
+    
+    trackInfoMod.appendTo(element);
+    
+    var trackInfoHead = $("<div/>");
+    trackInfoHead.css({
+      "width": "600px",
+      "height": "30px",
+      "font-size": "20px",
+      "font-weight": "bold",
+      "color": "white",
+      "padding": "6px",
+      "text-align": "left"
+    }).html("Tracklist-Info");
+    
+    trackInfoHead.appendTo(trackInfoMod);
+    
+    var closeInfoBtn = $("<button class='closeBtn'>X</button>");
+  	closeInfoBtn.appendTo(trackInfoHead);
+    
+    var trackInfoMain1 = $("<div/>");
+    trackInfoMain1.css({
+      "width": "600px",
+      "font-size": "14px",
+      "font-weight": "bold",
+      "color": "white",
+      "padding": "6px",
+      "display": "flex",
+      "flex-direction": "row"
+    });
+    
+    trackInfoMain1.appendTo(trackInfoMod);
+    
+    var trackInfoTxt1 = $("<div/>");
+    trackInfoTxt1.css({
+      "width": "240px",
+      "text-align": "left"
+    }).text("Tracklistname:");
+    
+    trackInfoTxt1.appendTo(trackInfoMain1);
+    
+    var trackInfoItem1 = $("<div/>");
+    trackInfoItem1.css({
+      "width": "340px",
+      "text-align": "left"
+    });
+    
+    trackInfoItem1.appendTo(trackInfoMain1);
+    
+    var trackInfoMain2 = $("<div/>");
+    trackInfoMain2.css({
+      "width": "600px",
+      "font-size": "14px",
+      "font-weight": "bold",
+      "color": "white",
+      "padding": "6px",
+      "display": "flex",
+      "flex-direction": "row"
+    });
+    
+    trackInfoMain2.appendTo(trackInfoMod);
+    
+    var trackInfoTxt2 = $("<div/>");
+    trackInfoTxt2.css({
+      "width": "240px",
+      "text-align": "left"
+    }).text("Numbers of Tracks:");
+    
+    trackInfoTxt2.appendTo(trackInfoMain2);
+    
+    var trackInfoItem2 = $("<div/>");
+    trackInfoItem2.css({
+      "width": "340px",
+      "text-align": "left"
+    });
+    
+    trackInfoItem2.appendTo(trackInfoMain2);
+    
+    var trackInfoMain3 = $("<div/>");
+    trackInfoMain3.css({
+      "width": "600px",
+      "font-size": "14px",
+      "font-weight": "bold",
+      "color": "white",
+      "padding": "6px",
+      "display": "flex",
+      "flex-direction": "row"
+    });
+    
+    trackInfoMain3.appendTo(trackInfoMod);
+    
+    var trackInfoTxt3 = $("<div/>");
+    trackInfoTxt3.css({
+      "width": "240px",
+      "text-align": "left"
+    }).text("Remaining Tracks:");
+    
+    trackInfoTxt3.appendTo(trackInfoMain3);
+    
+    var trackInfoItem3 = $("<div/>");
+    trackInfoItem3.css({
+      "width": "340px",
+      "text-align": "left"
+    });
+    
+    trackInfoItem3.appendTo(trackInfoMain3);
+    
+    var trackInfoMain4 = $("<div/>");
+    trackInfoMain4.css({
+      "width": "600px",
+      "font-size": "14px",
+      "font-weight": "bold",
+      "color": "white",
+      "padding": "6px",
+      "display": "flex",
+      "flex-direction": "row"
+    });
+    
+    trackInfoMain4.appendTo(trackInfoMod);
+    
+    var trackInfoTxt4 = $("<div/>");
+    trackInfoTxt4.css({
+      "width": "240px",
+      "text-align": "left"
+    }).text("Current Track Player 1:");
+    
+    trackInfoTxt4.appendTo(trackInfoMain4);
+    
+    var trackInfoItem4 = $("<div/>");
+    trackInfoItem4.css({
+      "width": "340px",
+      "text-align": "left"
+    });
+    
+    trackInfoItem4.appendTo(trackInfoMain4);
+    
+    var trackInfoMain5 = $("<div/>");
+    trackInfoMain5.css({
+      "width": "600px",
+      "font-size": "14px",
+      "font-weight": "bold",
+      "color": "white",
+      "padding": "6px",
+      "display": "flex",
+      "flex-direction": "row"
+    });
+    
+    trackInfoMain5.appendTo(trackInfoMod);
+    
+    var trackInfoTxt5 = $("<div/>");
+    trackInfoTxt5.css({
+      "width": "240px",
+      "text-align": "left"
+    }).text("Current Track Player 2:");
+    
+    trackInfoTxt5.appendTo(trackInfoMain5);
+    
+    var trackInfoItem5 = $("<div/>");
+    trackInfoItem5.css({
+      "width": "340px",
+      "text-align": "left"
+    });
+    
+    trackInfoItem5.appendTo(trackInfoMain5);
+    
+    var trackInfoMain6 = $("<div/>");
+    trackInfoMain6.css({
+      "width": "600px",
+      "font-size": "14px",
+      "font-weight": "bold",
+      "color": "white",
+      "padding": "6px",
+      "display": "flex",
+      "flex-direction": "row"
+    });
+    
+    trackInfoMain6.appendTo(trackInfoMod);
+    
+    var trackInfoTxt6 = $("<div/>");
+    trackInfoTxt6.css({
+      "width": "240px",
+      "text-align": "left"
+    }).text("Current Track Player 3:");
+    
+    trackInfoTxt6.appendTo(trackInfoMain6);
+    
+    var trackInfoItem6 = $("<div/>");
+    trackInfoItem6.css({
+      "width": "340px",
+      "text-align": "left"
+    });
+    
+    trackInfoItem6.appendTo(trackInfoMain6);
+    
+    var trackInfoMain7 = $("<div/>");
+    trackInfoMain7.css({
+      "width": "600px",
+      "font-size": "14px",
+      "font-weight": "bold",
+      "color": "white",
+      "padding": "6px",
+      "display": "flex",
+      "flex-direction": "row"
+    });
+    
+    trackInfoMain7.appendTo(trackInfoMod);
+    
+    var trackInfoTxt7 = $("<div/>");
+    trackInfoTxt7.css({
+      "width": "240px",
+      "text-align": "left"
+    }).text("Current Track Player 4:");
+    
+    trackInfoTxt7.appendTo(trackInfoMain7);
+    
+    var trackInfoItem7 = $("<div/>");
+    trackInfoItem7.css({
+      "width": "340px",
+      "text-align": "left"
+    });
+    
+    trackInfoItem7.appendTo(trackInfoMain7);
+    
+    var trackInfoMain8 = $("<div/>");
+    trackInfoMain8.css({
+      "width": "600px",
+      "font-size": "14px",
+      "font-weight": "bold",
+      "color": "white",
+      "padding": "6px",
+      "display": "flex",
+      "flex-direction": "row"
+    });
+    
+    trackInfoMain8.appendTo(trackInfoMod);
+    
+    var trackInfoTxt8 = $("<div/>");
+    trackInfoTxt8.css({
+      "width": "240px",
+      "text-align": "left"
+    }).text("Playlist-Mode:");
+    
+    trackInfoTxt8.appendTo(trackInfoMain8);
+    
+    var trackInfoItem8 = $("<div/>");
+    trackInfoItem8.css({
+      "width": "340px",
+      "text-align": "left"
+    });
+    
+    trackInfoItem8.appendTo(trackInfoMain8);
+    
+    
+    function trackInfos() {
+      var trackSource1 = player1.attr("src");
+      var trackSource2 = player2.attr("src");
+      var trackSource3 = player3.attr("src");
+      var trackSource4 = player4.attr("src");
+      
+      trackInfoItem1.text(trackSaveTxt.val());
+      trackInfoItem2.text($("#tracklist li").length);
+      trackInfoItem3.text(remainTracks.val());
+      trackInfoItem4.text(trackSource1.substring(trackSource1.lastIndexOf("/")+1, trackSource1.lastIndexOf(".")));
+      trackInfoItem5.text(trackSource2.substring(trackSource2.lastIndexOf("/")+1, trackSource2.lastIndexOf(".")));
+      trackInfoItem6.text(trackSource3.substring(trackSource3.lastIndexOf("/")+1, trackSource3.lastIndexOf(".")));
+      trackInfoItem7.text(trackSource4.substring(trackSource4.lastIndexOf("/")+1, trackSource4.lastIndexOf(".")));
+      
+      if (playListForwBtn.attr("style")) {
+        trackInfoItem8.text("Standard");
+      } else if (playListRevBtn.attr("style")) {
+        trackInfoItem8.text("Reverse");
+      } else if (playListRandomBtn.attr("style")) {
+        trackInfoItem8.text("Random");
+      }
+    }
+    
     var conMenu = $("<div id='menu'></div>");
     conMenu.css({
       "width": "250px",
@@ -8387,12 +8675,20 @@ this Set contains a lot of Play- & Track-Functions
       "cursor": "pointer"
     }).appendTo(menuList);
     
-    var listPoint10 = $("<li><img src='Symbole/fullscreen.png' style='width:16px; height:16px;'>&nbsp;Toogle Fullscreen</li>");
+    var listPoint10 = $("<li style='border-bottom: 1px solid rgba(255, 255, 255, 0.6)'><img src='Symbole/fullscreen.png' style='width:16px; height:16px;'>&nbsp;Toogle Fullscreen</li>");
     listPoint10.css({
       "padding-top": "6px",
       "padding-bottom": "6px",
       "cursor": "pointer"
     }).appendTo(menuList);
+    
+    var listPoint11 = $("<li>Tracklist-Info</li>");
+    listPoint11.css({
+      "padding-top": "6px",
+      "padding-bottom": "6px",
+      "cursor": "pointer"
+    });
+    listPoint11.appendTo(menuList);
     
     element.on("contextmenu", function(e) {
       var scW = window.screen.availWidth;
@@ -8502,6 +8798,16 @@ this Set contains a lot of Play- & Track-Functions
         $(this).html("<img src='Symbole/fullscreen.png' style='width: 16px; height: 16px;'>&nbsp;Fullscreen");
       }
       conMenu.hide();
+    });
+    
+    listPoint11.on("click", function() {
+      trackInfos();
+      trackInfoMod.animate({left: element.width()/2 - trackInfoMod.width()/2 + "px", top: element.height()/2 - trackInfoMod.height()/2 + "px"},1).show();
+      conMenu.hide();
+    });
+    
+    closeInfoBtn.on("click", function() {
+      trackInfoMod.hide();
     });
     
     $("#menu li").on("mouseenter", function() {
@@ -8782,12 +9088,275 @@ this Set contains a lot of Play- & Track-Functions
       return false;
     });
     
+    var recmodBtn = $("<button class='toolbuttons9'>");
+    recmodBtn.css({
+      "border-color": "silver"
+    }).html("<img src='Symbole/rec.png' style='width:18px; height: 18px; margin-right: 6px;'>Record").appendTo(bottomMain);
+    
+    var recMod = $("<div/>");
+    recMod.css({
+      "width": "1000px",
+      "border": "4px outset white",
+      "background": "#212121",
+      "position": "absolute",
+      "left": "20px",
+      "top": "20px",
+      "display": "none"
+    }).appendTo(element);
+    
+    var recHead = $("<div/>");
+    recHead.css({
+      "width": "98%",
+      "height": "auto",
+      "background": "#151515",
+      "font-weight": "bold",
+	  "font-size": "20px",
+	  "color": "white",
+      "text-align": "left",
+      "padding": "6px"
+    }).text("Audio-Record").appendTo(recMod);
+    
+    var recClose = $("<button class='closeBtn' style='margin-bottom:6px;'>X</button>");
+    recClose.appendTo(recHead);
+    
+    var recMain = $("<div/>");
+    recMain.css({
+      "width": "98%",
+      "height": "550px",
+    }).appendTo(recMod);
+    
+    var recArea = $("<div/>");
+    recArea.css({
+      "background": "#151515",
+      "width": "100%",
+      "height": "60px",
+   }).appendTo(recMain);
+    
+    var recPlayer = $("<audio id='recplayer' controls></audio>");
+    recPlayer.appendTo(recArea);
+    
+    var saveRecName = $("<div/>");
+    saveRecName.css({
+      "background": "#000029",
+      "width": "100%",
+      "height": "50px"
+    }).appendTo(recMain);
+    
+    var recSaveTxt = $("<input id='recfilename'/>");
+    recSaveTxt.css({
+      "background": "#212121",
+      "width": "400px",
+      "height": "40px",
+      "font-weight": "bold",
+      "font-size": "20px",
+      "color": "white",
+      "border-radius": "6px"
+    }).appendTo(saveRecName);
+    
+    var reclistArea = $("<div/>");
+    reclistArea.css({
+      "background": "#303030",
+      "width": "100%",
+      "height": "450px",
+      "overflow": "auto"
+    }).appendTo(recMain);
+    
+    var recordingsList = $("<ul id='recordingsList'></ul>");
+    recordingsList.css({
+      "padding": "1px",
+      "margin": "1px",
+      "font-size": "20px",
+      "font-weight": "bold",
+      "list-style": "none",
+      "cursor": "pointer",
+      "text-align": "left"
+    }).appendTo(reclistArea);
+    
+    var recFoot = $("<div/>");
+    recFoot.css({
+      "width": "98%",
+      "height": "auto",
+      "background": "#151515",
+      "font-weight": "bold",
+	  "font-size": "20px",
+	  "color": "white",
+      "text-align": "center",
+      "padding": "6px"
+    }).appendTo(recMod);
+    
+    var recStart = $("<button class='toolbuttons9'></button>");
+    recStart.css({
+      "background": "#212121",
+      "border-color": "silver"
+     }).text("Start Record").appendTo(recFoot);
+          
+    var recordButton = $("<button class='toolbuttons9'>");
+    recordButton.css({
+      "background": "#002900",
+      "border-color": "silver"
+     }).html("<img src='Symbole/rec.png' style='width:18px; height: 18px; margin-right: 6px;'>Record").appendTo(recFoot);
+          
+    var stopButton = $("<button class='toolbuttons9'></button>");
+    stopButton.css({
+      "background": "#212121",
+      "border-color": "silver"
+    }).text("Stop Record").appendTo(recFoot);
+    
+    var recClose2 = $("<button class='toolbuttons9'></button>");
+    recClose2.css({
+      "background": "#212121",
+      "border-color": "silver"
+    }).text("Close").appendTo(recFoot);
+    
+    recmodBtn.on("click", function() {
+      recMod.animate({left: element.width()/2 - recMod.width()/2 + "px", top: element.height()/2 - recMod.height()/2 + "px"},1).show();
+    });
+    
+    recClose.on("click", function() {
+      recMod.hide();
+    });
+    
+    recClose2.on("click", function() {
+      recMod.hide();
+    });
+    
+    var recorder;
+    
+    recStart.on('click',function() {
+	// get audio stream from user's mic
+	  navigator.mediaDevices.getUserMedia({
+	   audio: true
+	  	})
+		.then(function (stream) {
+	    recordButton.removeAttr("disabled");
+	    recordButton.on('click', startRecording);
+	    stopButton.on('click', stopRecording);
+	    recorder = new MediaRecorder(stream);
+
+	// listen to dataavailable, which gets triggered whenever we have
+    // an audio blob available
+		recorder.addEventListener('dataavailable', onRecordingReady);
+			});
+		});
+
+
+	function startRecording() {
+	  recordButton.attr("disabled", "disabled").css({
+        "background": "linear-gradient(to right, green, lime, green)",
+        "border-style": "inset",
+        "border-color": "lime"
+      });
+	  stopButton.removeAttr("disabled");
+	  recorder.start();
+	}
+
+	function stopRecording() {
+	  recordButton.removeAttr("disabled").css({
+        "background": "#002900",
+        "border-style": "outset",
+        "border-color": "silver"
+      });
+	  stopButton.attr("disabled", "disabled");
+
+	  // Stopping the recorder will eventually trigger the `dataavailable` event and we can complete the recording process
+	  recorder.stop();
+	}
+
+	function onRecordingReady(e) {
+	  var audio = document.getElementById('recplayer');
+	  var li = document.createElement('li');
+	  var link = document.createElement('a');
+	  var recordfile = document.getElementById('recfilename').value;
+          
+
+	  // e.data contains a blob representing the recording
+	  audio.src = URL.createObjectURL(e.data);
+	  audio.play();
+      link.href = audio.src;
+      link.download = recordfile + "." + "ogg";
+      link.innerHTML = link.download;
+      li.appendChild(link);
+	  recordingsList.append(li);
+	}
+    
+    recStart.on("mousedown", function() {
+      $(this).css({
+        "background": "linear-gradient(to right, grey, silver, grey)",
+        "border-style": "inset",
+        "border-color": "white"
+      });
+    });
+    
+    recStart.on("mouseup mouseleave", function() {
+      $(this).css({
+        "background": "#212121",
+        "border-style": "outset",
+        "border-color": "silver"
+      });
+    });
+    
+    stopButton.on("mousedown", function() {
+      $(this).css({
+        "background": "linear-gradient(to right, grey, silver, grey)",
+        "border-style": "inset",
+        "border-color": "white"
+      });
+    });
+    
+    stopButton.on("mouseup mouseleave", function() {
+      $(this).css({
+        "background": "#212121",
+        "border-style": "outset",
+        "border-color": "silver"
+      });
+    });
+    
+    recClose2.on("mousedown", function() {
+      $(this).css({
+        "background": "linear-gradient(to right, grey, silver, grey)",
+        "border-style": "inset",
+        "border-color": "white"
+      });
+    });
+    
+    recClose2.on("mouseup mouseleave", function() {
+      $(this).css({
+        "background": "#212121",
+        "border-style": "outset",
+        "border-color": "silver"
+      });
+    });
+    
+    recmodBtn.on("mousedown", function() {
+      $(this).css({
+        "background": "linear-gradient(to right, darkred, red, darkred)",
+        "border-style": "inset",
+        "border-color": "white"
+      });
+    });
+    
+    recmodBtn.on("mouseup mouseleave", function() {
+      $(this).css({
+        "background": "#290000",
+        "border-style": "outset",
+        "border-color": "silver"
+      });
+    });
+    
     
     function setPlaySettings() {
       if (settings.autoplay === true && settings.loop === false) {
         onePlay.click();
       } else if (settings.autoplay === false && settings.loop === true) {
         playLoop.click();
+      }
+      
+      if (settings.crossfadeMode === "auto") {
+        autoplayBtn.click();
+      }
+      
+      if (settings.trackChange === false) {
+        trackChangeBtn.click();
       }
     }
     
